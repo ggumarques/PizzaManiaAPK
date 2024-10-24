@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appdepizzaria.adapter.ProductAdapter
 import com.example.appdepizzaria.databinding.ActivityMainBinding
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var productAdapter: ProductAdapter
     private val products = Products()
     private val productsList: MutableList<Product> = mutableListOf()
+    private val filteredProducts: MutableList<Product> = mutableListOf()
     var clicked = false
 
     @SuppressLint("ResourceAsColor")
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         window.statusBarColor = Color.parseColor("#E0E0E0")
 
-        // Configura RecyclerView
         val recyclerViewProducts = binding.recyclerViewProducts
         recyclerViewProducts.layoutManager = GridLayoutManager(this, 2)
         recyclerViewProducts.setHasFixedSize(true)
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         productAdapter = ProductAdapter(this, productsList)
         recyclerViewProducts.adapter = productAdapter
 
-        // Coleta de produtos e atualização do RecyclerView
         CoroutineScope(Dispatchers.IO).launch {
             products.getProducts().collectIndexed { index, value ->
                 withContext(Dispatchers.Main) {
@@ -51,54 +51,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Configuração de clique nos botões de categoria
-        binding.btnTodas.setOnClickListener {
-            clicked = true
-            if (clicked) {
-                updateButtonStyles(
-                    selectedButton = binding.btnTodas,
-                    unselectedButtons = listOf(binding.btnFrango, binding.btnPizza, binding.btnEsfiha)
-                )
-                binding.recyclerViewProducts.visibility = View.VISIBLE
-                binding.txtTitulo.text = "Todas"
+        binding.searchViewProducts.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                callSearch(query)
+                return true
             }
-        }
 
-        binding.btnFrango.setOnClickListener {
-            clicked = true
-            if (clicked) {
-                updateButtonStyles(
-                    selectedButton = binding.btnFrango,
-                    unselectedButtons = listOf(binding.btnTodas, binding.btnPizza, binding.btnEsfiha)
-                )
-                binding.recyclerViewProducts.visibility = View.VISIBLE
-                binding.txtTitulo.text = "Frango"
+            override fun onQueryTextChange(newText: String): Boolean {
+//              if (searchView.isExpanded() && TextUtils.isEmpty(newText)) {
+                callSearch(newText)
+                //              }
+                return true
             }
-        }
 
-        binding.btnPizza.setOnClickListener {
-            clicked = true
-            if (clicked) {
-                updateButtonStyles(
-                    selectedButton = binding.btnPizza,
-                    unselectedButtons = listOf(binding.btnTodas, binding.btnFrango, binding.btnEsfiha)
-                )
-                binding.recyclerViewProducts.visibility = View.VISIBLE
-                binding.txtTitulo.text = "Pizza"
-            }
-        }
+            fun callSearch(query: String?) {
 
-        binding.btnEsfiha.setOnClickListener {
-            clicked = true
-            if (clicked) {
-                updateButtonStyles(
-                    selectedButton = binding.btnEsfiha,
-                    unselectedButtons = listOf(binding.btnTodas, binding.btnFrango, binding.btnPizza)
-                )
-                binding.recyclerViewProducts.visibility = View.VISIBLE
-                binding.txtTitulo.text = "Esfiha"
-            }
-        }
+                CoroutineScope(Dispatchers.IO).launch {
+                    products.getProducts().collectIndexed { index, value ->
+                        withContext(Dispatchers.Main) {
+                            productsList.clear()
+                            productsList.addAll(value.filter { it.name.contains(query.toString(), ignoreCase = true) })
+                            productAdapter.notifyDataSetChanged()
+                            recyclerViewProducts.visibility = View.VISIBLE
+                        }
+                    }
+                }
+                }
+            });
+
+
     }
 
     // Método para atualizar os estilos dos botões

@@ -37,7 +37,7 @@ class Products {
             ),
             Product(
                 imgProducts = R.drawable.pizza_queijo,
-                name = "Pizza de Queijo",
+                name = "Pizza de 4 Queijos",
                 price = "50,00"
             )
         )

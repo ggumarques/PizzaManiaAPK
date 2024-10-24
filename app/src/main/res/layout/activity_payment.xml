@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="@color/tela"
     tools:context=".Payment">
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,18 +38,6 @@
 
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/EditPix"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="Email ou celular"
-        android:background="@color/white"
-        android:padding="15dp"
-        android:layout_margin="20dp"
-        android:maxLines="1"
-        android:visibility="gone"
-        android:inputType="textEmailAddress"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,6 +58,15 @@
         android:gravity="start"
         android:layout_margin="20dp" />
 
+    <ImageView
+        android:id="@+id/qrCodeImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/qrcodeimage"
+        android:visibility="gone"
+        android:layout_margin="20dp"/>
+
     <Button
         android:id="@+id/btPay"
         android:layout_width="match_parent"
@@ -82,6 +79,5 @@
         app:cornerRadius="15dp"
         android:backgroundTint="@color/orange"
         android:layout_margin="20dp"/>
-
 
 </LinearLayout>

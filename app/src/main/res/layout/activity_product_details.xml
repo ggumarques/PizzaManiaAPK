@@ -95,7 +95,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sauces and Drinks"
+        android:text="Acompanhamento:"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_margin="20dp" />
@@ -110,7 +110,7 @@
             android:id="@+id/btMustard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mustard"/>
+            android:text="Mostarda"/>
 
 
         <RadioButton
@@ -123,13 +123,13 @@
             android:id="@+id/btLemonSoda"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lemon Soda"/>
+            android:text="Soda"/>
 
         <RadioButton
             android:id="@+id/btJuice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Juice"/>
+            android:text="Coca-Cola"/>
 
         
     </RadioGroup>
@@ -138,7 +138,7 @@
         android:id="@+id/btConfirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm"
+        android:text="Confirmar"
         android:textSize="18sp"
         android:textColor="@color/white"
         android:textStyle="bold"

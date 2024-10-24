@@ -22,7 +22,7 @@ class ProductDetails : AppCompatActivity() {
 
         val imgProduct = intent.extras!!.getInt("imgProduct")
         val name = intent.extras!!.getString("name")
-        val price = intent.extras!!.getInt("price")!!.toDouble()
+        val price = intent.extras!!.getString("price")!!.replace(",", ".").toDouble()
         var newPrice = price
         val decimalFormat = DecimalFormat.getCurrencyInstance()
 
@@ -70,16 +70,16 @@ class ProductDetails : AppCompatActivity() {
 
             val saucesAndDrinks = when{
                 mustard.isChecked -> {
-                    "Mustard"
+                    "Mostarda"
                 }
                 ketchup.isChecked -> {
                     "Ketchup"
                 }
                 lemonSoda.isChecked -> {
-                    "Lemon Soda"
+                    "Soda"
                 }
                 juice.isChecked -> {
-                    "Juice"
+                    "Coca-Cola"
                 }
                 else -> {
                     ""
